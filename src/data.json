@@ -1,0 +1,49 @@
+{
+  "title": "React Хуки: useState, useEffect и обработчики (handle)",
+  "description": "Интерактивный учебник-шпаргалка. Жми на кнопки — каждая из них работает через useState / useEffect / handle.",
+  "lessons": [
+    {
+      "id": "useState",
+      "title": "useState — состояние",
+      "tag": "Хук",
+      "description": "useState возвращает пару [значение, функция-сеттер]. Когда вызываешь сеттер — React перерисовывает компонент с новым значением.",
+      "example": "const [count, setCount] = useState(0);\n\n// читаем значение\n<p>{count}</p>\n\n// меняем — запускается перерисовка\n<button onClick={() => setCount(count + 1)}>+1</button>",
+      "rules": [
+        "Состояние — это данные, которые компонент может менять.",
+        "Сеттер (setCount) всегда создаёт НОВОЕ значение и запускает re-render.",
+        "Не мутируй состояние напрямую: state.count++ — так нельзя.",
+        "Если новое значение зависит от старого — передавай функцию: setCount(c => c + 1).",
+        "Хуки вызывай только на верхнем уровне компонента, не в циклах и не в if."
+      ]
+    },
+    {
+      "id": "useEffect",
+      "title": "useEffect — побочные эффекты",
+      "tag": "Хук",
+      "description": "useEffect запускает код ПОСЛЕ рендера. Это место для запросов к серверу, подписок, изменения document.title, сохранения в localStorage.",
+      "example": "useEffect(() => {\n  // выполняется после каждого рендера,\n  // если изменилась зависимость count\n  document.title = `Счёт: ${count}`;\n}, [count]);\n\n// пустой массив [] = один раз при монтировании\nuseEffect(() => {\n  console.log('Компонент смонтирован');\n}, []);",
+      "rules": [
+        "Первый аргумент — функция с побочным эффектом.",
+        "Второй аргумент — массив зависимостей [deps].",
+        "[] — эффект выполнится один раз при монтировании.",
+        "[count] — эффект выполнится при каждом изменении count.",
+        "Без массива зависимостей — эффект бежит после каждого рендера.",
+        "Если нужна очистка (таймеры, подписки) — верни из эффекта функцию-cleanup."
+      ]
+    },
+    {
+      "id": "handle",
+      "title": "handle — обработчики событий",
+      "tag": "Функции",
+      "description": "handle — это просто обычные функции, которые реагируют на события пользователя. По соглашению называются handleЧто-то: handleClick, handleChange, handleSubmit.",
+      "example": "// обработчики — обычные функции\nconst handleIncrement = () => setCount(c => c + 1);\nconst handleInput = (event) => setText(event.target.value);\n\n// привязка к JSX\n<button onClick={handleIncrement}>+1</button>\n<input value={text} onChange={handleInput} />",
+      "rules": [
+        "Имя = handle + действие: handleClick, handleChange, handleSubmit.",
+        "Передавай ССЫЛКУ на функцию, а не вызов: onClick={handleClick}, а не onClick={handleClick()}.",
+        "Нужен аргумент? Оберни в стрелку: onClick={() => handleSelect(id)}.",
+        "Событие приходит первым аргументом: (event) => event.target.value.",
+        "State обычно называется в единственном числе, сеттер — set + имя."
+      ]
+    }
+  ]
+}
